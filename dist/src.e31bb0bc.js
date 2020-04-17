@@ -35294,7 +35294,7 @@ function About() {
 
 var _default = About;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","../Default Page":"pages/Default Page/index.js"}],"pages/USGov/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","../Default Page":"pages/Default Page/index.js"}],"components/RecentActivity/BillPreview.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35305,6 +35305,47 @@ exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n    display: flex;\n    flex-direction: row;\n\n    border-style: groove;\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var BillPreviewStyled = _styledComponents.default.li(_templateObject());
+
+function BillPreview(props) {
+  var quickinfo = props.billStatus.bill.billType + '-' + props.billStatus.bill.billNumber;
+  return /*#__PURE__*/_react.default.createElement(BillPreviewStyled, null, /*#__PURE__*/_react.default.createElement("p", null, quickinfo));
+}
+
+var _default = BillPreview;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"components/RecentActivity/RecentActivity.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+var _BillPreview = _interopRequireDefault(require("./BillPreview"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35325,6 +35366,71 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n    width: 70%;\n\n    display: flex;\n    flex-direction: column;\n\n    text-align: left;\n\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var RecentActivityStyled = _styledComponents.default.div(_templateObject());
+
+function RecentActivity(props) {
+  var _useState = (0, _react.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      data = _useState2[0],
+      setData = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(true),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isLoading = _useState4[0],
+      setIsLoading = _useState4[1];
+
+  (0, _react.useEffect)(function () {
+    fetch("http://localhost:5000/api/recent_activity/days/5", {
+      method: "GET"
+    }).then(function (res) {
+      return res.json();
+    }).then(function (response) {
+      setData(response.hits);
+      setIsLoading(false);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement(RecentActivityStyled, null, /*#__PURE__*/_react.default.createElement("h1", null, "~ Recent Activity ~"), isLoading && /*#__PURE__*/_react.default.createElement("p", null, "Loading..."), /*#__PURE__*/_react.default.createElement("ul", null, data.map(function (bill, index) {
+    return /*#__PURE__*/_react.default.createElement(_BillPreview.default, {
+      billStatus: bill._source.billStatus,
+      key: index
+    });
+  })));
+}
+
+var _default = RecentActivity;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","./BillPreview":"components/RecentActivity/BillPreview.js"}],"pages/USGov/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+var _RecentActivity = _interopRequireDefault(require("../../components/RecentActivity/RecentActivity"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _templateObject() {
   var data = _taggedTemplateLiteral(["\n\n    display: flex;\n    flex-direction: column;\n    flex: none;\n    align-items: center;\n\n    text-align: center;\n"]);
 
   _templateObject = function _templateObject() {
@@ -35339,43 +35445,12 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 var USGovStyled = _styledComponents.default.div(_templateObject());
 
 function USGov() {
-  var _useState = (0, _react.useState)(),
-      _useState2 = _slicedToArray(_useState, 2),
-      empty = _useState2[0],
-      setEmpty = _useState2[1];
-
-  var _useState3 = (0, _react.useState)({}),
-      _useState4 = _slicedToArray(_useState3, 2),
-      data = _useState4[0],
-      setData = _useState4[1];
-
-  var _useState5 = (0, _react.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      isLoading = _useState6[0],
-      setIsLoading = _useState6[1];
-
-  (0, _react.useEffect)(function () {
-    fetch("http://localhost:5000/api/congress/directory/", {
-      method: "GET"
-    }).then(function (res) {
-      return res.json();
-    }).then(function (response) {
-      setData(response.filter(function (con) {
-        return con.terms[con.terms.length - 1].type == "sen";
-      }));
-      setIsLoading(false);
-    });
-  }, []);
-  return /*#__PURE__*/_react.default.createElement(USGovStyled, null, /*#__PURE__*/_react.default.createElement("h1", null, "The Government of the United State of America"), /*#__PURE__*/_react.default.createElement("p", null, "This a page helping to detail the current/historical structure and actions of the government of the United States of America"), isLoading && /*#__PURE__*/_react.default.createElement("p", null, "Loading Data..."), /*#__PURE__*/_react.default.createElement("p", null, "There are currently ", data.length, " serving members in Congress"), /*#__PURE__*/_react.default.createElement("h2", null, "Here are all their names and states:"), data.map(function (d, index) {
-    return /*#__PURE__*/_react.default.createElement("p", {
-      key: index
-    }, " ", d.name.first + ' ' + d.name.last + ' - ' + d.terms[d.terms.length - 1].state);
-  }));
+  return /*#__PURE__*/_react.default.createElement(USGovStyled, null, /*#__PURE__*/_react.default.createElement("h1", null, "The Government of the United State of America"), /*#__PURE__*/_react.default.createElement("p", null, "This a page helping to detail the current/historical structure and actions of the government of the United States of America"), /*#__PURE__*/_react.default.createElement(_RecentActivity.default, null));
 }
 
 var _default = USGov;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","../../components/RecentActivity/RecentActivity":"components/RecentActivity/RecentActivity.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -35449,7 +35524,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53244" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59123" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
